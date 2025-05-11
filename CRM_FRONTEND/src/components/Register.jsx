@@ -1,36 +1,33 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../css/login.css';
+import '../css/register.css';
 
-const Login = () => {
+const Register = () => {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     try {
       const response = await axios.post('http://localhost:5000/auth/register', {
         username,
-        email: `${username}@example.com`,
+        email,
         password,
       });
       localStorage.setItem('token', response.data.token);
       navigate('/home');
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error('Registration failed:', error);
     }
   };
 
-  const handleGoogleLogin = () => {
-    window.location.href = 'http://localhost:5000/auth/google';
-  };
-
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <h2>Login to Mini CRM</h2>
-        <div className="login-form">
+    <div className="register-container">
+      <div className="register-card">
+        <h2>Register for Mini CRM</h2>
+        <div className="register-form">
           <input
             type="text"
             placeholder="Username"
@@ -38,21 +35,27 @@ const Login = () => {
             onChange={(e) => setUsername(e.target.value)}
           />
           <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button className="login-button" onClick={handleLogin}>
-            Login
+          <button className="register-button" onClick={handleRegister}>
+            Register
           </button>
-          <button className="login-button" onClick={handleGoogleLogin}>
-            Login with Google
-          </button>
+        </div>
+        <div className="register-link">
+          Already have an account? <Link to="/login">Login</Link>
         </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Register;
