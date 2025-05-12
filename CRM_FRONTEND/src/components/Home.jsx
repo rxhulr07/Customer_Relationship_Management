@@ -5,13 +5,21 @@ import '../css/home.css';
 
 const Home = () => {
   const [campaigns, setCampaigns] = useState([]);
+  const [analytics, setAnalytics] = useState({ totalCampaigns: 0, totalSent: 0, avgSuccessRate: 0 });
 
   useEffect(() => {
     axios
       .get('http://localhost:5000/api/campaigns', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       })
-      .then((response) => setCampaigns(response.data))
+      .then((response) => {
+        setCampaigns(response.data);
+        const totalCampaigns = response.data.length;
+        const totalSent = response.data.reduce((sum, c) => sum + c.sent, 0);
+        const totalAudience = response.data.reduce((sum, c) => sum + c.audienceSize, 0);
+        const avgSuccessRate = totalAudience ? ((totalSent / totalAudience) * 100).toFixed(2) : 0;
+        setAnalytics({ totalCampaigns, totalSent, avgSuccessRate });
+      })
       .catch((error) => console.error('Error fetching campaigns:', error));
   }, []);
 
@@ -50,6 +58,12 @@ const Home = () => {
             ))}
           </tbody>
         </table>
+        <div className="analytics-section">
+          <h3>Campaign Insights</h3>
+          <p>Total Campaigns: {analytics.totalCampaigns}</p>
+          <p>Total Messages Sent: {analytics.totalSent}</p>
+          <p>Average Success Rate: {analytics.avgSuccessRate}%</p>
+        </div>
       </div>
     </div>
   );
