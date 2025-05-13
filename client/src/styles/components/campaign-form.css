@@ -1,0 +1,17 @@
+.campaign-form-container {
+  max-width: 600px;
+  margin: var(--space-md) auto;
+}
+
+.campaign-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+  margin-top: var(--space-md);
+}
