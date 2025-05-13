@@ -1,0 +1,29 @@
+.app-sidebar {
+  width: 250px;
+  background-color: white;
+  box-shadow: var(--shadow-md);
+  padding: var(--space-md);
+}
+
+.app-sidebar nav ul {
+  list-style: none;
+}
+
+.app-sidebar li a {
+  display: block;
+  padding: var(--space-sm) var(--space-md);
+  color: var(--text-color);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.app-sidebar li a:hover {
+  background-color: rgba(74, 111, 165, 0.1);
+  color: var(--primary-color);
+}
+
+.app-sidebar li a.active {
+  background-color: rgba(74, 111, 165, 0.2);
+  color: var(--primary-color);
+  border-left: 3px solid var(--primary-color);
+}
